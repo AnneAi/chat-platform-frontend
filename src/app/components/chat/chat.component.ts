@@ -12,6 +12,7 @@ export class ChatComponent implements AfterViewChecked, DoCheck {
 
   private totalMsgs: number = 0;
   private toScroll: boolean;
+  private wasTyping: boolean = false;
   private userInput = '';
 
   @Input() private emitterType;
@@ -52,9 +53,23 @@ export class ChatComponent implements AfterViewChecked, DoCheck {
     this.userInput = '';
   }
 
+  private handleTypingState() {
+    if (!Utils.isEmpty(this.userInput) && !this.wasTyping) {
+      this.websocket.send('typing-on');
+      this.wasTyping = true;
+    } else if (Utils.isEmpty(this.userInput) && this.wasTyping) {
+      this.websocket.send('typing-off');
+      this.wasTyping = false;
+    }
+  }
+
   private handleKeyDown(event): void {
+    this.userInput = event.target.value;
+
     if (event.keyCode === 13) {
       this.sendMessage();
     }
+
+    this.handleTypingState();
   }
 }
