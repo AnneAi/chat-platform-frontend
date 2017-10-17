@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, ElementRef, ViewChild, AfterViewChecked, DoCheck } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ElementRef, ViewChild, AfterViewChecked, DoCheck } from '@angular/core';
 
 import { WebsocketService } from '../../services/websocket.service';
 import Utils from '../../utils';
@@ -13,11 +13,13 @@ export class ChatComponent implements AfterViewChecked, DoCheck {
   private totalMsgs: number = 0;
   private toScroll: boolean;
   private wasTyping: boolean = false;
-  private userInput = '';
 
   @Input() private emitterType;
+  @Input() private isEmitterTyping: boolean;
   @Input() private recipient;
   @Input() private messages;
+  @Input() private userInput = '';
+  @Output() userInputChange: EventEmitter<string> = new EventEmitter();
   @ViewChild('convTainer') private convTainer: ElementRef;
 
   constructor(private websocket: WebsocketService) { }
@@ -64,12 +66,16 @@ export class ChatComponent implements AfterViewChecked, DoCheck {
   }
 
   private handleKeyDown(event): void {
-    this.userInput = event.target.value;
-
     if (event.keyCode === 13) {
       this.sendMessage();
     }
 
+    this.handleTypingState();
+  }
+
+  private handleInput(event): void {
+    this.userInput = event.target.value;
+    this.userInputChange.emit(this.userInput);
     this.handleTypingState();
   }
 }
