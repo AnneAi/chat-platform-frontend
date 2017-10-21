@@ -78,14 +78,13 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       delete this.messages[data.student];
     });
 
-    this.websocket.send(
-      'init',
-      {
-        emitterType: this.emitterType,
-        name: this.name,
-        roomId: this.roomId
-      }
-    );
+    let msg = {
+      emitterType: this.emitterType,
+      name: this.name,
+      roomId: this.roomId
+    };
+
+    this.websocket.send('init', msg);
   }
 
   ngOnDestroy() {

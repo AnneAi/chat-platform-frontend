@@ -41,14 +41,13 @@ export class StudentChatComponent implements OnInit, OnDestroy {
       this.isEmitterTyping = false;
     });
 
-    this.websocket.send(
-      'init',
-      {
-        emitterType: this.emitterType,
-        name: this.name,
-        roomId: this.roomId
-      }
-    );
+    let msg = {
+      emitterType: this.emitterType,
+      name: this.name,
+      roomId: this.roomId
+    };
+
+    this.websocket.send('init', msg);
   }
 
   ngOnDestroy() {

@@ -47,11 +47,13 @@ export class ChatComponent implements AfterViewChecked, DoCheck {
       return;
     }
 
-    this.websocket.send('message', {
+    let msg = {
       recipient: this.recipient,
       type: 'text',
       payload: this.userInput
-    });
+    };
+
+    this.websocket.send('message', msg);
     this.userInput = '';
   }
 
