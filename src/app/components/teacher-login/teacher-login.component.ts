@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 
 import Utils from '../../utils';
 import { environment } from '../../../environments/environment';
+import { TokenManager } from '../../services/token-manager.service';
 
 @Component({
   selector: 'teacher-login',
   templateUrl: './teacher-login.component.html',
-  styleUrls: ['./teacher-login.component.scss']
+  styleUrls: ['./teacher-login.component.scss'],
+  providers: [ TokenManager ]
 })
 export class TeacherLoginComponent {
 
@@ -23,7 +25,7 @@ export class TeacherLoginComponent {
   private namePatrn = /^([A-Z]([A-Z]|[a-z])*\s?)+$/; // Regex for name validation
   private roomIdPatrn = /^([A-Z]|[a-z]|[0-9]|-|_)+$/; // Regex for uppercase validation
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private tokenManager: TokenManager) { }
 
   joinSession(): void {
     if (Utils.isEmpty(this.name) || Utils.isEmpty(this.roomId) || Utils.isEmpty(this.password)) {
@@ -36,8 +38,10 @@ export class TeacherLoginComponent {
     };
 
     this.http.post(`${environment.api}/rooms/connect/teacher`, body).subscribe(
-      data => {
-        if(data['success']) {
+      (data: any) => {
+        if(data.success) {
+          this.tokenManager.storeToken(data.token);
+
           this.nameChange.emit(this.name);
           this.roomIdChange.emit(this.roomId);
           this.connectedChange.emit(true);
