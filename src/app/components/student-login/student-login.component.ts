@@ -8,8 +8,7 @@ import { TokenManager } from '../../services/token-manager.service';
 @Component({
   selector: 'student-login',
   templateUrl: './student-login.component.html',
-  styleUrls: ['./student-login.component.scss'],
-  providers: [ TokenManager ]
+  styleUrls: ['./student-login.component.scss']
 })
 export class StudentLoginComponent {
 
@@ -41,7 +40,7 @@ export class StudentLoginComponent {
       (data: any) => {
         if(data.success) {
           this.tokenManager.storeToken(data.token);
-          
+
           this.nameChange.emit(this.name);
           this.roomIdChange.emit(this.roomId);
           this.connectedChange.emit(true);
