@@ -14,7 +14,6 @@ export class ChatComponent implements AfterViewChecked, DoCheck {
   private toScroll: boolean;
   private wasTyping: boolean = false;
 
-  @Input() private emitterType;
   @Input() private isEmitterTyping: boolean;
   @Input() private recipient;
   @Input() private messages;

@@ -13,12 +13,9 @@ import { Parser } from '../../message-parser';
 export class StudentChatComponent implements OnInit, OnDestroy {
 
   private connection;
-  private emitterType: string = 'student';
   private id: string;
   private isEmitterTyping: boolean = false;
   private messages = [ ];
-  @Input() private name: string;
-  @Input() private roomId: string;
 
   constructor(private websocket: WebsocketService, private tokenManager: TokenManager) {
     this.websocket.connect();

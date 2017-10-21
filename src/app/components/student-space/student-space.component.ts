@@ -11,8 +11,6 @@ import { TokenManager } from '../../services/token-manager.service';
 export class StudentSpaceComponent {
 
   private connected: boolean = this.tokenManager.doesTokenExist();
-  private name: string;
-  private roomId: string;
 
   constructor(private tokenManager: TokenManager) { }
 }

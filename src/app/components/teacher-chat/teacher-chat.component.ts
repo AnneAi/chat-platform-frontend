@@ -21,9 +21,6 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   private selectedStudent: StudentInterface = { id: '', isTyping: false, name: '', userInput: '', unseen: 0 };
   private students: StudentInterface[ ] = [ ];
 
-  @Input() private name: string;
-  @Input() private roomId: string;
-
   constructor(private websocket: WebsocketService, private tokenManager: TokenManager) {
     this.websocket.connect();
   }

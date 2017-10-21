@@ -13,16 +13,15 @@ import { TokenManager } from '../../services/token-manager.service';
 })
 export class StudentLoginComponent {
 
-  @Input() private name: string;
-  @Input() private roomId: string;
-  @Input() private connected: boolean;
-  @Output() private nameChange: EventEmitter<string> = new EventEmitter();
-  @Output() private roomIdChange: EventEmitter<string> = new EventEmitter();
-  @Output() private connectedChange: EventEmitter<boolean> = new EventEmitter();
-
+  private name: string;
+  private roomId: string;
   private serverMsg: string = ''; // Message received from the server
   private namePatrn = /^([A-Z]([A-Z]|[a-z])*\s?)+$/; // Regex for name validation
   private roomIdPatrn = /^([A-Z]|[a-z]|[0-9]|-|_)+$/; // Regex for uppercase validation
+
+  @Input() private connected: boolean;
+
+  @Output() private connectedChange: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private http: HttpClient, private tokenManager: TokenManager) { }
 
@@ -42,9 +41,6 @@ export class StudentLoginComponent {
       (data: any) => {
         if(data.success) {
           this.tokenManager.storeToken(data.token);
-
-          this.nameChange.emit(this.name);
-          this.roomIdChange.emit(this.roomId);
           this.connectedChange.emit(true);
         } else {
           this.serverMsg = data['message'];
