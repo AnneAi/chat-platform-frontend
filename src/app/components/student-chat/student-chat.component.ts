@@ -1,13 +1,14 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
 import { WebsocketService } from '../../services/websocket.service';
+import { TokenManager } from '../../services/token-manager.service';
 import { Parser } from '../../message-parser';
 
 @Component({
   selector: 'student-chat',
   templateUrl: './student-chat.component.html',
   styleUrls: [ './student-chat.component.scss' ],
-  providers: [ WebsocketService ]
+  providers: [ WebsocketService, TokenManager ]
 })
 export class StudentChatComponent implements OnInit, OnDestroy {
 
@@ -19,7 +20,7 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   @Input() private name: string;
   @Input() private roomId: string;
 
-  constructor(private websocket: WebsocketService) {
+  constructor(private websocket: WebsocketService, private tokenManager: TokenManager) {
     this.websocket.connect();
   }
 
@@ -42,9 +43,7 @@ export class StudentChatComponent implements OnInit, OnDestroy {
     });
 
     let msg = {
-      emitterType: this.emitterType,
-      name: this.name,
-      roomId: this.roomId
+      token: this.tokenManager.retrieveToken()
     };
 
     this.websocket.send('init', msg);

@@ -19,6 +19,15 @@ export class TokenManager {
     localStorage.removeItem(this.tokenKey);
   }
 
+  public doesTokenExist(): boolean {
+    try {
+      this.retrieve();
+      return true;
+    } catch(err) {
+      return false;
+    }
+  }
+
   public storeToken(token: string) {
     this.store(token);
   }

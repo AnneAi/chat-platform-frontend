@@ -8,7 +8,8 @@ import { TokenManager } from '../../services/token-manager.service';
 @Component({
   selector: 'student-login',
   templateUrl: './student-login.component.html',
-  styleUrls: ['./student-login.component.scss']
+  styleUrls: ['./student-login.component.scss'],
+  providers: [ TokenManager ]
 })
 export class StudentLoginComponent {
 

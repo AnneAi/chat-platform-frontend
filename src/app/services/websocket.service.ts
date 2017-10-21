@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 
 import { environment } from '../../environments/environment';
-import { TokenManager } from './token-manager.service';
 
 @Injectable()
 export class WebsocketService {
@@ -13,7 +12,7 @@ export class WebsocketService {
   private socket;
   private connections: number = 0;
 
-  constructor(private tokenManager: TokenManager) { }
+  constructor() { }
 
   connect() {
     this.connections++;
@@ -31,7 +30,6 @@ export class WebsocketService {
   }
 
   send(event: string, obj: any = {}): void {
-    obj.token = this.tokenManager.retrieveToken();
     this.socket.emit(event, obj);
   }
 
