@@ -33,7 +33,8 @@ export class StudentLoginComponent {
     }
 
     let body = {
-      id: this.roomId
+      roomName: this.roomId,
+      userName: this.name
     };
 
     this.http.post(`${environment.api}/rooms/connect/student`, body).subscribe(

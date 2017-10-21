@@ -32,8 +32,9 @@ export class TeacherLoginComponent {
     }
 
     let body = {
-      id: this.roomId,
-      password: this.password
+      roomName: this.roomId,
+      password: this.password,
+      userName: this.name
     };
 
     this.http.post(`${environment.api}/rooms/connect/teacher`, body).subscribe(
