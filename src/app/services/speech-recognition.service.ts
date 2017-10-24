@@ -1,6 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import * as _ from "lodash";
 
 interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -30,7 +29,7 @@ export class SpeechRecognitionService {
           var result = speech.results[speech.resultIndex];
           var transcript = result[0].transcript;
           if (result[0].confidence >= 0.3) {
-            term = _.trim(transcript);
+            term = transcript;
           }
         }
         this.zone.run(() => {
