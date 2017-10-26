@@ -78,53 +78,19 @@ img {
 }
 
 .col-abst {
-  @include display-flex();
-  @include flex-flow-column();
+  display: inline-block;
   box-sizing: border-box;
-  padding: 5px 0;
+  float: left;
+  // ##### delete ↓
+  border: 1px solid red;
 }
 
 /*******************************/
 /*  Building classes
 /*******************************/
 
-.center-content {
-  @include justify-content-center();
-  @include align-items-center();
-}
-
 .margin {
   margin: 1em;
-}
-
-.col-25 {
-  @extend .col-abst;
-  width: 25%;
-}
-
-.col-33 {
-  @extend .col-abst;
-  width: 33%;
-}
-
-.col-50 {
-  @extend .col-abst;
-  width: 50%;
-}
-
-.col-66 {
-  @extend .col-abst;
-  width: 66%;
-}
-
-.col-75 {
-  @extend .col-abst;
-  width: 75%;
-}
-
-.col-100 {
-  @extend .col-abst;
-  width: 100%;
 }
 
 .center-text {
@@ -138,22 +104,63 @@ img {
 div[class*='content'] {
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 5px;
   width: 60%;
 }
 
-div[class*='row'] {
+div[class*='flex'] {
   @include display-flex();
+}
+
+div[class*='content-center'] {
+  @include justify-content-center();
+  @include align-items-center();
 }
 
 div[class*='row-reverse'] {
   @include display-flex-row-reverse();
 }
 
+div[class*='row-centered'] {
+  @include align-items-center();
+}
+
 div[class*='column-centered'] {
-  @include display-flex();
   @include flex-flow-column();
   @include align-items-center();
+}
+
+div[class*='col-25'] {
+  @extend .col-abst;
+  width: 25%;
+}
+
+div[class*='col-33'] {
+  @extend .col-abst;
+  width: 33%;
+}
+
+div[class*='col-50'] {
+  @extend .col-abst;
+  width: 50%;
+}
+
+div[class*='col-66'] {
+  @extend .col-abst;
+  width: 66%;
+}
+
+div[class*='col-75'] {
+  @extend .col-abst;
+  width: 75%;
+}
+
+div[class*='col-100'] {
+  @extend .col-abst;
+  width: 100%;
+}
+
+div[class*='clear'] {
+  clear: both;
 }
 
 /*******************************/
@@ -262,6 +269,16 @@ div[class*='column-centered'] {
   .col-abst {
     @include flex-flow-column();
     @include align-items-center();
+  }
+
+  div[class*='col-25'],
+  div[class*='col-33'],
+  div[class*='col-50'],
+  div[class*='col-66'],
+  div[class*='col-75'],
+  div[class*='col-100'] {
+    display: block;
+    width: 100%;
   }
 }
 
