@@ -8,7 +8,7 @@
 
 section {
   position: relative;
-  padding: 4em 0;
+  padding: 1em 0;
 }
 
 h1 {
@@ -56,8 +56,8 @@ img {
   max-width: 250px;
 
   &[class*='square'] {
-    height: 250px;
-    width: 250px;
+    height: 200px;
+    width: 200px;
   }
 }
 
