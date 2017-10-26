@@ -2,6 +2,10 @@
 @import "../../../styles/metrics.scss";
 @import "../../../styles/mixins.scss";
 
+/*******************************/
+/*  Default HTML tags
+/*******************************/
+
 section {
   position: relative;
   padding: 4em 0;
@@ -22,12 +26,15 @@ p {
 
 a,
 button {
-  background-color: rgba(0,0,0,0);
+  box-sizing: border-box;
   padding: 1.5em 6em;
-  cursor: pointer;
+
+  background-color: rgba(0,0,0,0);
   @include border-radius-1(5px);
   border-width: 2px;
   border-style: solid;
+  cursor: pointer;
+
   font-weight: bold;
   font-size: 1em;
   text-decoration: none;
@@ -43,10 +50,96 @@ button {
   }
 }
 
-div[class*='content'] {
-  width: 60%;
-  margin: 0 auto;
+img {
+  max-height: 250px;
+  max-width: 250px;
+
+  &[class*='square'] {
+    height: 250px;
+    width: 250px;
+  }
+}
+
+/*******************************/
+/*  Abstract classes
+/*******************************/
+
+.background-abst {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -100;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.col-abst {
+  @include display-flex();
+  @include flex-flow-column();
+  box-sizing: border-box;
   padding: 5px 0;
+}
+
+/*******************************/
+/*  Building classes
+/*******************************/
+
+.center-content {
+  @include justify-content-center();
+  @include align-items-center();
+}
+
+.margin {
+  margin: 1em;
+}
+
+.col-25 {
+  @extend .col-abst;
+  width: 25%;
+}
+
+.col-33 {
+  @extend .col-abst;
+  width: 33%;
+}
+
+.col-50 {
+  @extend .col-abst;
+  width: 50%;
+}
+
+.col-66 {
+  @extend .col-abst;
+  width: 66%;
+}
+
+.col-75 {
+  @extend .col-abst;
+  width: 75%;
+}
+
+.col-100 {
+  @extend .col-abst;
+  width: 100%;
+}
+
+.center-text {
+  text-align: center;
+}
+
+/*******************************/
+/*  Building div
+/*******************************/
+
+div[class*='content'] {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 5px;
+  width: 60%;
 }
 
 div[class*='row'] {
@@ -63,29 +156,12 @@ div[class*='column-centered'] {
   @include align-items-center();
 }
 
-img {
-  max-height: 250px;
-  max-width: 250px;
-
-  &[class*='square'] {
-    height: 250px;
-    width: 250px;
-  }
-}
-
-.background-abst {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -100;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+/*******************************/
+/*  Sections
+/*******************************/
 
 #banner {
+  box-sizing: border-box;
   padding: 30vh 0;
 
   .background {
@@ -105,9 +181,10 @@ img {
     right: 0;
     bottom: 0;
     left: 0;
+
     background-image: url('../../../assets/pattern.jpg');
-    opacity: 0.1;
     @include filter-blur(1px);
+    opacity: 0.1;
   }
 
   .bg-clr {
@@ -117,6 +194,7 @@ img {
     right: 0;
     bottom: 0;
     left: 0;
+
     @include linear-gradient(-50deg, $color-1-l, $color-1);
   }
 }
@@ -147,9 +225,10 @@ img {
     right: 0;
     bottom: 0;
     left: 0;
+
     background-image: url('../../../assets/pattern.jpg');
-    opacity: 0.1;
     @include filter-blur(1px);
+    opacity: 0.1;
   }
 
   .bg-clr {
@@ -159,70 +238,16 @@ img {
     right: 0;
     bottom: 0;
     left: 0;
+
     @include linear-gradient(-50deg, $color-3-l, $color-3);
   }
-}
-
-.col {
-  @include display-flex();
-  @include flex-flow-column();
-  @include flex-flow-wrap();
-  padding: 5px 0;
-  box-sizing: border-box;
-}
-
-.center-content {
-  @include justify-content-center();
-  @include align-items-center();
-}
-
-.margin {
-  margin: 1em;
-}
-
-.col-25 {
-  @extend .col;
-  width: 25%;
-}
-
-.col-33 {
-  @extend .col;
-  width: 33%;
-}
-
-.col-50 {
-  @extend .col;
-  width: 50%;
-}
-
-.col-66 {
-  @extend .col;
-  width: 66%;
-}
-
-.col-75 {
-  @extend .col;
-  width: 75%;
-}
-
-.col-100 {
-  @extend .col;
-  width: 100%;
-}
-
-.center-text {
-  text-align: center;
-}
-
-.white {
-  color: white;
 }
 
 @media screen and (max-width: $tablet-width) {
   section,
   div[class*='content'],
   #banner,
-  .col {
+  .col-abst {
     padding-left: 0;
     padding-right: 0;
   }
@@ -234,8 +259,7 @@ img {
 
   div[class*='row'],
   div[class*='column-centered'],
-  .col
-  {
+  .col-abst {
     @include flex-flow-column();
     @include align-items-center();
   }
@@ -244,18 +268,21 @@ img {
 /************************** FORM ****************************/
 
 form button {
-  width: 100%;
+  box-sizing: border-box;
   margin-top: 1em;
   padding: 1.5em 6em;
-  cursor: pointer;
+  width: 100%;
+
+  background-color: rgba(0,0,0,0);
+  color: $color-3;
   @include border-radius-1(5px);
+  border-color: $color-3;
   border-width: 2px;
   border-style: solid;
+  cursor: pointer;
+
   font-weight: bold;
   font-size: 1em;
-  background-color: rgba(0,0,0,0);
-  border-color: $color-3;
-  color: $color-3;
 
   &:hover {
     background-color: $color-3;
@@ -265,38 +292,41 @@ form button {
   &[disabled],
   &[disabled]:hover {
     background-color: rgba(0,0,0,0);
-    border-color: $grey-d;
     color: $grey-d;
+    border-color: $grey-d;
+
     opacity: 0.5;
   }
 }
 
 form {
-  width: 100%;
   margin: 0 auto;
   margin-top: 2em;
   padding: 1em 0;
+  width: 100%;
+
   @include border-radius-1(10px);
 
   > div {
-    width: 80%;
     margin: 0 auto;
     margin-bottom: 1em;
+    width: 80%;
 
     label {
       display: block;
-      width: 100%;
       margin-bottom: 0.25em;
+      width: 100%;
+
       color: $grey-d;
     }
 
     input,
     textarea {
-      box-sizing: border-box;
       display: block;
-      width: 100%;
+      box-sizing: border-box;
       padding: 1em 0;
       padding-left: 1em;
+      width: 100%;
 
       @include border-radius-1(5px);
       border: 1px solid $grey;
@@ -304,8 +334,9 @@ form {
     }
 
     textarea {
-      resize: vertical;
       min-height: 3em;
+
+      resize: vertical;
     }
   }
 }
@@ -320,10 +351,12 @@ form {
 
 .errors {
   box-sizing: border-box;
-  width: 100%;
   padding: 1em 0;
-  text-indent: 1em;
+  width: 100%;
+
   background-color: $red;
   color: $white;
   @include border-radius-1(5px);
+
+  text-indent: 1em;
 }
