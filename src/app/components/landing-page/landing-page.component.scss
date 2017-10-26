@@ -25,6 +25,13 @@ p {
 }
 
 a,
+a:visited {
+  color: $white;
+
+  font-size: 1.5em;
+}
+
+a[class*="button"],
 button {
   display: inline-block;
   box-sizing: border-box;
@@ -103,7 +110,7 @@ img {
 /*******************************/
 
 .margin {
-  margin: 1em;
+  margin: 0.5em;
 }
 
 .center-text {
@@ -282,6 +289,25 @@ div[class*='clear'] {
     left: 0;
 
     @include linear-gradient(-50deg, $color-3-l, $color-3);
+  }
+}
+
+#footer {
+  position: relative;
+
+  .bg-ptrn {
+    @extend .bg-ptrn-abst;
+  }
+
+  .bg-clr {
+    position: absolute;
+    z-index: -10;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    background-color: $black;
   }
 }
 
