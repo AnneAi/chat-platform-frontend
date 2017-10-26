@@ -109,6 +109,10 @@ img {
   text-align: center;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 /*******************************/
 /*  Building div
 /*******************************/
@@ -206,6 +210,32 @@ div[class*='clear'] {
     left: 0;
 
     @include linear-gradient(-50deg, $color-1-l, $color-1);
+  }
+}
+
+#features {
+  .background {
+    @extend .background-abst;
+    background-image: url('../../../assets/bg-features.png');
+  }
+
+  .col-33 {
+    box-sizing: border-box;
+    padding: 0 5px;
+  }
+
+  a {
+    &[class*="prim"] {
+      background-color: $red;
+      border-color: $white;
+      color: $white;
+    }
+
+    &:hover {
+      background-color: $white;
+      border-color: $white;
+      color: $red;
+    }
   }
 }
 
