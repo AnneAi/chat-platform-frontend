@@ -84,6 +84,19 @@ img {
   float: left;
 }
 
+.bg-ptrn-abst {
+  position: absolute;
+  z-index: -10;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background-image: url('../../../assets/pattern.jpg');
+  @include filter-blur(1px);
+  opacity: 0.1;
+}
+
 /*******************************/
 /*  Building classes
 /*******************************/
@@ -181,16 +194,7 @@ div[class*='clear'] {
   position: relative;
 
   .bg-ptrn {
-    position: absolute;
-    z-index: -10;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    background-image: url('../../../assets/pattern.jpg');
-    @include filter-blur(1px);
-    opacity: 0.1;
+    @extend .bg-ptrn-abst;
   }
 
   .bg-clr {
@@ -225,16 +229,7 @@ div[class*='clear'] {
   position: relative;
 
   .bg-ptrn {
-    position: absolute;
-    z-index: -10;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    background-image: url('../../../assets/pattern.jpg');
-    @include filter-blur(1px);
-    opacity: 0.1;
+    @extend .bg-ptrn-abst;
   }
 
   .bg-clr {
