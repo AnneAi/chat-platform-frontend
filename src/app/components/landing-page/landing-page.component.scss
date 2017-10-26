@@ -81,6 +81,7 @@ img {
 .col-abst {
   display: inline-block;
   box-sizing: border-box;
+  padding: 0 5px;
   float: left;
 }
 
@@ -113,6 +114,20 @@ img {
   font-weight: bold;
 }
 
+.intrinsic-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+}
+
+.intrinsic-element {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 /*******************************/
 /*  Building div
 /*******************************/
@@ -120,6 +135,7 @@ img {
 div[class*='content'] {
   box-sizing: border-box;
   margin: 0 auto;
+  margin-bottom: 5px;
   width: 60%;
 }
 
@@ -194,7 +210,7 @@ div[class*='clear'] {
   }
 }
 
-#slogan {
+#video-presentation {
   position: relative;
 
   .bg-ptrn {
@@ -217,11 +233,6 @@ div[class*='clear'] {
   .background {
     @extend .background-abst;
     background-image: url('../../../assets/bg-features.png');
-  }
-
-  .col-33 {
-    box-sizing: border-box;
-    padding: 0 5px;
   }
 
   a {
@@ -285,7 +296,6 @@ div[class*='clear'] {
 
   div[class*='content'] {
     width: 100%;
-    margin: auto;
   }
 
   div[class*='row'],

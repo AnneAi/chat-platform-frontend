@@ -9,9 +9,21 @@
   </div>
 </section>
 
-<section id="slogan">
+<section id="video-presentation">
   <div class="bg-clr"></div>
   <div class="bg-ptrn"></div>
+  <div class="content">
+    <div class="intrinsic-container">
+      <iframe
+        [src]="url | safe"
+        class="intrinsic-element"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen >
+      </iframe>
+    </div>
+  </div>
   <div class="content">
     <div class="flex row-centered">
       <div class="col-25">
