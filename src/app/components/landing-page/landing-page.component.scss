@@ -82,8 +82,6 @@ img {
   display: inline-block;
   box-sizing: border-box;
   float: left;
-  // ##### delete ↓
-  border: 1px solid red;
 }
 
 /*******************************/
@@ -280,6 +278,8 @@ div[class*='clear'] {
   div[class*='col-100'] {
     display: block;
     width: 100%;
+
+    text-align: center;
   }
 }
 
