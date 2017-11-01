@@ -23,22 +23,25 @@
         <div class="errors" *ngIf="nameInput.errors.required"> Your name is required </div>
       </div>
     </div>
+
     <div>
-      <label for="roomId"> Classroom id </label>
-      <input
+      <label for="roomId"> Classroom </label>
+      <select
         id="roomId"
         name="roomId"
         type="text"
-        placeholder="classroom id"
         [(ngModel)]="roomId"
         #roomIdInput="ngModel"
         required
         [pattern]="roomIdPatrn" >
+
+        <option *ngFor="let room of roomsName" [value]="room" >{{ room }}</option>
+      </select>
       <div *ngIf="roomIdInput.invalid && (roomIdInput.dirty || roomIdInput.touched)">
         <div class="errors" *ngIf="roomIdInput.errors.required"> The classroom id is required </div>
-        <div class="errors" *ngIf="roomIdInput.errors.pattern"> The classroom id contains invalid characters </div>
       </div>
     </div>
+
     <div>
       <label for="password"> Password </label>
       <input

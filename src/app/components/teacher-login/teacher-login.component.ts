@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import Utils from '../../utils';
@@ -11,10 +11,11 @@ import { TokenManager } from '../../services/token-manager.service';
   styleUrls: ['./teacher-login.component.scss'],
   providers: [ TokenManager ]
 })
-export class TeacherLoginComponent {
+export class TeacherLoginComponent implements OnInit {
 
   private name: string;
   private roomId: string;
+  private roomsName: Array<string> = [ ];
   private password: string;
   private serverMsg: string = ''; // Message received from the server
   private roomIdPatrn = /^([A-Z]|[a-z]|[0-9]|-|_|\s)+$/; // Regex for uppercase validation
@@ -24,6 +25,16 @@ export class TeacherLoginComponent {
   @Output() private connectedChange: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private http: HttpClient, private tokenManager: TokenManager) { }
+
+  ngOnInit(): void {
+    this.http.get(`${environment.api}/rooms`).subscribe(
+      (data: any) => {
+        if(data.success) {
+          this.roomsName = data.rooms;
+        }
+      }
+    );
+  }
 
   joinSession(): void {
     if (Utils.isEmpty(this.name) || Utils.isEmpty(this.roomId) || Utils.isEmpty(this.password)) {
