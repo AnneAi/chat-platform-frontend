@@ -16,7 +16,6 @@ export class StudentLoginComponent {
   private name: string;
   private roomId: string;
   private serverMsg: string = ''; // Message received from the server
-  private namePatrn = /^([A-Z]([A-Z]|[a-z])*\s?)+$/; // Regex for name validation
   private roomIdPatrn = /^([A-Z]|[a-z]|[0-9]|-|_|\s)+$/; // Regex for uppercase validation
 
   @Input() private connected: boolean;
