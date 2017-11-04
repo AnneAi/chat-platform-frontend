@@ -57,6 +57,33 @@ export class TokenManager {
     return token;
   }
 
+  /*  Retrieve info from token.
+
+      PARAMS
+        none
+
+      RETURN
+        (object) info from token or null if inexistant or invalid
+  */
+  public extractTokenInfo(): any {
+    let info = null;
+
+    let token = this.retrieveToken();
+    if (token !== null) {
+      try {
+        let payload = JSON.parse(atob(token.split('.')[0]));
+
+        info = {
+          userName: payload.unm,
+          userType: payload.utp,
+          roomName: payload.rnm
+        };
+      } catch (e) { }
+    }
+
+    return info;
+  }
+
   /*  Remove a token from the local storage.
 
       PARAMS
