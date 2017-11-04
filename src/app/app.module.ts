@@ -27,6 +27,7 @@ import { SafePipe } from './pipes/safe.pipe';
 
 // Services
 import { AuthenticationService } from './services/authentication.service';
+import { RoomService } from './services/room.service';
 import { TokenManagerService } from './services/token-manager.service';
 
 @NgModule({
@@ -83,6 +84,7 @@ import { TokenManagerService } from './services/token-manager.service';
     TeacherAuthGuard,
 
     AuthenticationService,
+    RoomService,
     TokenManagerService
   ],
   bootstrap: [ AppComponent ]
