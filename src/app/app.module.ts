@@ -20,7 +20,14 @@ import { TeacherSpaceComponent } from './components/teacher-space/teacher-space.
 import { TypingIndicatorComponent } from './components/chat/messages/typing-indicator/typing-indicator.component';
 import { VideoComponent } from './components/chat/messages/video/video.component';
 
+// Guards
+import { TeacherAuthGuard } from './guards/teacher-auth.guard';
+
+// Pipes
 import { SafePipe } from './pipes/safe.pipe';
+
+// Services
+import { TokenManager } from './services/token-manager.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +61,12 @@ import { SafePipe } from './pipes/safe.pipe';
         },
         {
           path: 'teacher',
-          component: TeacherSpaceComponent
+          component: TeacherLoginComponent
+        },
+        {
+          path: 'teacher/chat',
+          component: TeacherChatComponent,
+          canActivate: [ TeacherAuthGuard ]
         },
         {
           path: '',
@@ -63,7 +75,11 @@ import { SafePipe } from './pipes/safe.pipe';
       ]
     )
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    TeacherAuthGuard,
+
+    TokenManager
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
