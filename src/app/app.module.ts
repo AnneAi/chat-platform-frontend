@@ -16,7 +16,6 @@ import { StudentSpaceComponent } from './components/student-space/student-space.
 import { TeacherChatComponent } from './components/teacher-chat/teacher-chat.component';
 import { TextComponent } from './components/chat/messages/text/text.component';
 import { TeacherLoginComponent } from './components/teacher-login/teacher-login.component';
-import { TeacherSpaceComponent } from './components/teacher-space/teacher-space.component';
 import { TypingIndicatorComponent } from './components/chat/messages/typing-indicator/typing-indicator.component';
 import { VideoComponent } from './components/chat/messages/video/video.component';
 
@@ -43,7 +42,6 @@ import { TokenManager } from './services/token-manager.service';
     TeacherChatComponent,
     TextComponent,
     TeacherLoginComponent,
-    TeacherSpaceComponent,
     TypingIndicatorComponent,
     VideoComponent,
 
