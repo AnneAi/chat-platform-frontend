@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 
 import Utils from '../../utils';
 import { environment } from '../../../environments/environment';
+
 import { AuthenticationService } from '../../services/authentication.service';
+import { RoomService } from '../../services/room.service';
 
 @Component({
   selector: 'student-login',
   templateUrl: './student-login.component.html',
-  styleUrls: ['./student-login.component.scss']
+  styleUrls: ['./student-login.component.scss'],
+  providers: [ RoomService ]
 })
 export class StudentLoginComponent implements OnInit {
 
@@ -20,17 +23,14 @@ export class StudentLoginComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private auth: AuthenticationService
+    private authService: AuthenticationService,
+    private roomService: RoomService
   ) { }
 
   ngOnInit(): void {
-    this.http.get(`${environment.api}/rooms`).subscribe(
-      (data: any) => {
-        if(data.success) {
-          this.roomsName = data.rooms;
-        }
-      }
-    );
+    this.roomService.getAllRoomsName().subscribe((roomsName: Array<string>) => {
+      this.roomsName = roomsName;
+    });
   }
 
   joinSession(): void {
@@ -48,7 +48,7 @@ export class StudentLoginComponent implements OnInit {
     this.http.post(`${environment.api}/rooms/connect/student`, body).subscribe(
       (data: any) => {
         if(data.success) {
-          this.auth.authenticateStudent(data.token);
+          this.authService.authenticateStudent(data.token);
         } else {
           this.serverMsg = data['message'];
         }
