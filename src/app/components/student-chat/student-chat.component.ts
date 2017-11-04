@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { WebsocketService } from '../../services/websocket.service';
 import { TokenManager } from '../../services/token-manager.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'student-chat',
@@ -20,6 +21,7 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   constructor(
     private websocket: WebsocketService,
     private tokenManager: TokenManager,
+    private auth: AuthenticationService,
     private router: Router
   ) {
     this.websocket.connect();
@@ -54,7 +56,7 @@ export class StudentChatComponent implements OnInit, OnDestroy {
     this.websocket.disconnect();
   }
 
-  /*  Emit the event to disconnect the user from the room.
+  /*  Disconnect the user from the room.
 
       PARAMS
         none
@@ -63,7 +65,6 @@ export class StudentChatComponent implements OnInit, OnDestroy {
         none
   */
   private disconnect(): void {
-    this.tokenManager.removeToken();
-    this.router.navigate([ '/student' ]);
+    this.auth.disconnectStudent();
   }
 }
