@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { WebsocketService } from '../../services/websocket.service';
 import { TokenManager } from '../../services/token-manager.service';
@@ -7,7 +8,7 @@ import { TokenManager } from '../../services/token-manager.service';
   selector: 'student-chat',
   templateUrl: './student-chat.component.html',
   styleUrls: [ './student-chat.component.scss' ],
-  providers: [ WebsocketService, TokenManager ]
+  providers: [ WebsocketService ]
 })
 export class StudentChatComponent implements OnInit, OnDestroy {
 
@@ -16,9 +17,11 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   private isEmitterTyping: boolean = false;
   private messages = [ ];
 
-  @Output() private fireDisconnection: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  constructor(private websocket: WebsocketService, private tokenManager: TokenManager) {
+  constructor(
+    private websocket: WebsocketService,
+    private tokenManager: TokenManager,
+    private router: Router
+  ) {
     this.websocket.connect();
   }
 
@@ -60,6 +63,7 @@ export class StudentChatComponent implements OnInit, OnDestroy {
         none
   */
   private disconnect(): void {
-    this.fireDisconnection.emit(true);
+    this.tokenManager.removeToken();
+    this.router.navigate([ '/student' ]);
   }
 }
