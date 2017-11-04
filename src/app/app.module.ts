@@ -26,6 +26,7 @@ import { TeacherAuthGuard } from './guards/teacher-auth.guard';
 import { SafePipe } from './pipes/safe.pipe';
 
 // Services
+import { AuthenticationService } from './services/authentication.service';
 import { TokenManager } from './services/token-manager.service';
 
 @NgModule({
@@ -81,6 +82,7 @@ import { TokenManager } from './services/token-manager.service';
     StudentAuthGuard,
     TeacherAuthGuard,
 
+    AuthenticationService,
     TokenManager
   ],
   bootstrap: [ AppComponent ]
