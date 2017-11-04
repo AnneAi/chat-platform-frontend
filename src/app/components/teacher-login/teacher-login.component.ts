@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import Utils from '../../utils';
 import { environment } from '../../../environments/environment';
-import { TokenManager } from '../../services/token-manager.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'teacher-login',
@@ -22,7 +22,7 @@ export class TeacherLoginComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private tokenManager: TokenManager,
+    private auth: AuthenticationService,
     private router: Router
   ) { }
 
@@ -50,8 +50,7 @@ export class TeacherLoginComponent implements OnInit {
     this.http.post(`${environment.api}/rooms/connect/teacher`, body).subscribe(
       (data: any) => {
         if(data.success) {
-          this.tokenManager.storeToken(data.token);
-          this.router.navigate([ '/teacher/chat' ]);
+          this.auth.authenticateTeacher(data.token);
         } else {
           this.serverMsg = data['message'];
         }

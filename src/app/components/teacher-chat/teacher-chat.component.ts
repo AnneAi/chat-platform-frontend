@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { WebsocketService } from '../../services/websocket.service';
 import { TokenManager } from '../../services/token-manager.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { StudentInterface } from './student.interface';
 
 @Component({
@@ -24,6 +25,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   constructor(
     private websocket: WebsocketService,
     private tokenManager: TokenManager,
+    private auth: AuthenticationService,
     private router: Router
   ) {
     this.websocket.connect();
@@ -113,8 +115,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
         none
   */
   private disconnect(): void {
-    this.tokenManager.removeToken();
-    this.router.navigate([ '/teacher' ]);
+    this.auth.disconnectTeacher();
   }
 
   handleTypingIndicator(student: StudentInterface): void {
