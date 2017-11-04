@@ -40,4 +40,30 @@ export class AuthenticationService {
     this.tokenManager.removeToken();
     this.router.navigate([ '/student' ]);
   }
+
+  /*  Authenticate teacher and redirect to chat interface.
+
+      PARAMS
+        token (string): token to store in local storage
+
+      RETURN
+        none
+  */
+  public authenticateTeacher(token): void {
+    this.tokenManager.storeToken(token);
+    this.router.navigate([ '/teacher/chat' ]);
+  }
+
+  /*  Disconnect teacher and redirect to login interface.
+
+      PARAMS
+        none
+
+      RETURN
+        none
+  */
+  public disconnectTeacher(): void {
+    this.tokenManager.removeToken();
+    this.router.navigate([ '/teacher' ]);
+  }
 }
