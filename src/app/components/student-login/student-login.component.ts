@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import Utils from '../../utils';
@@ -21,8 +20,7 @@ export class StudentLoginComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private auth: AuthenticationService,
-    private router: Router
+    private auth: AuthenticationService
   ) { }
 
   ngOnInit(): void {

@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { WebsocketService } from '../../services/websocket.service';
 import { TokenManagerService } from '../../services/token-manager.service';
@@ -25,8 +24,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   constructor(
     private websocket: WebsocketService,
     private tokenManager: TokenManagerService,
-    private auth: AuthenticationService,
-    private router: Router
+    private auth: AuthenticationService
   ) {
     this.websocket.connect();
   }
