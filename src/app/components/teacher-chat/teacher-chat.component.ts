@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { WebsocketService } from '../../services/websocket.service';
 import { TokenManager } from '../../services/token-manager.service';
@@ -8,7 +9,7 @@ import { StudentInterface } from './student.interface';
   selector: 'teacher-chat',
   templateUrl: './teacher-chat.component.html',
   styleUrls: [ './teacher-chat.component.scss' ],
-  providers: [ WebsocketService, TokenManager ]
+  providers: [ WebsocketService ]
 })
 export class TeacherChatComponent implements OnInit, OnDestroy {
 
@@ -20,9 +21,11 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   private selectedStudent: StudentInterface = { id: '', isTyping: false, name: '', userInput: '', unseen: 0 };
   private students: StudentInterface[ ] = [ ];
 
-  @Output() private fireDisconnection: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  constructor(private websocket: WebsocketService, private tokenManager: TokenManager) {
+  constructor(
+    private websocket: WebsocketService,
+    private tokenManager: TokenManager,
+    private router: Router
+  ) {
     this.websocket.connect();
   }
 
@@ -101,7 +104,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*  Emit the event to disconnect the user from the room.
+  /*  Disconnect the user from the room.
 
       PARAMS
         none
@@ -110,7 +113,8 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
         none
   */
   private disconnect(): void {
-    this.fireDisconnection.emit(true);
+    this.tokenManager.removeToken();
+    this.router.navigate([ '/teacher' ]);
   }
 
   handleTypingIndicator(student: StudentInterface): void {
