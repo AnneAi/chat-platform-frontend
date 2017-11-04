@@ -37,4 +37,40 @@ export class RoomService {
 
     return observable;
   }
+
+  /*  Try to connect a student to a room.
+
+      PARAMS
+        roomInfo (object): information to connect to a room
+
+      RETURN
+        (Observable)
+  */
+  public connectStudent(roomInfo): Observable<any> {
+    let observable = new Observable(observer => {
+      this.http.post(`${environment.api}/rooms/connect/student`, roomInfo).subscribe((data: any) => {
+        observer.next(data);
+      });
+    });
+
+    return observable;
+  }
+
+  /*  Try to connect a teacher to a room.
+
+      PARAMS
+        roomInfo (object): information to connect to a room
+
+      RETURN
+        (Observable)
+  */
+  public connectTeacher(roomInfo): Observable<any> {
+    let observable = new Observable(observer => {
+      this.http.post(`${environment.api}/rooms/connect/teacher`, roomInfo).subscribe((data: any) => {
+        observer.next(data);
+      });
+    });
+
+    return observable;
+  }
 }
