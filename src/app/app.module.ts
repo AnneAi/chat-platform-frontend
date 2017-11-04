@@ -12,7 +12,6 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { StudentChatComponent } from './components/student-chat/student-chat.component';
 import { StudentLoginComponent } from './components/student-login/student-login.component';
 import { StudentsListComponent } from './components/students-list/students-list.component';
-import { StudentSpaceComponent } from './components/student-space/student-space.component';
 import { TeacherChatComponent } from './components/teacher-chat/teacher-chat.component';
 import { TextComponent } from './components/chat/messages/text/text.component';
 import { TeacherLoginComponent } from './components/teacher-login/teacher-login.component';
@@ -20,6 +19,7 @@ import { TypingIndicatorComponent } from './components/chat/messages/typing-indi
 import { VideoComponent } from './components/chat/messages/video/video.component';
 
 // Guards
+import { StudentAuthGuard } from './guards/student-auth.guard';
 import { TeacherAuthGuard } from './guards/teacher-auth.guard';
 
 // Pipes
@@ -38,7 +38,6 @@ import { TokenManager } from './services/token-manager.service';
     StudentChatComponent,
     StudentLoginComponent,
     StudentsListComponent,
-    StudentSpaceComponent,
     TeacherChatComponent,
     TextComponent,
     TeacherLoginComponent,
@@ -55,7 +54,12 @@ import { TokenManager } from './services/token-manager.service';
       [
         {
           path: 'student',
-          component: StudentSpaceComponent
+          component: StudentLoginComponent
+        },
+        {
+          path: 'student/chat',
+          component: StudentChatComponent,
+          canActivate: [ StudentAuthGuard ]
         },
         {
           path: 'teacher',
@@ -74,6 +78,7 @@ import { TokenManager } from './services/token-manager.service';
     )
   ],
   providers: [
+    StudentAuthGuard,
     TeacherAuthGuard,
 
     TokenManager
