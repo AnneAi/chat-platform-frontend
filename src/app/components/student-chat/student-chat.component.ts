@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { WebsocketService } from '../../services/websocket.service';
-import { TokenManager } from '../../services/token-manager.service';
+import { TokenManagerService } from '../../services/token-manager.service';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class StudentChatComponent implements OnInit, OnDestroy {
 
   constructor(
     private websocket: WebsocketService,
-    private tokenManager: TokenManager,
+    private tokenManager: TokenManagerService,
     private auth: AuthenticationService,
     private router: Router
   ) {

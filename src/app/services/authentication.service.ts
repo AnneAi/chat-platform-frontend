@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { TokenManager } from './token-manager.service';
+import { TokenManagerService } from './token-manager.service';
 
 @Injectable()
 export class AuthenticationService {
 
   constructor(
-    private tokenManager: TokenManager,
+    private tokenManager: TokenManagerService,
     private router: Router
   ) { }
 
