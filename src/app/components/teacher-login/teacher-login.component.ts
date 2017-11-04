@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import Utils from '../../utils';
-import { environment } from '../../../environments/environment';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { RoomService } from '../../services/room.service';
@@ -10,8 +8,7 @@ import { RoomService } from '../../services/room.service';
 @Component({
   selector: 'teacher-login',
   templateUrl: './teacher-login.component.html',
-  styleUrls: ['./teacher-login.component.scss'],
-  providers: [ RoomService ]
+  styleUrls: ['./teacher-login.component.scss']
 })
 export class TeacherLoginComponent implements OnInit {
 
@@ -23,7 +20,6 @@ export class TeacherLoginComponent implements OnInit {
   private roomIdPatrn = /^([A-Z]|[a-z]|[0-9]|-|_|\s)+$/; // Regex for uppercase validation
 
   constructor(
-    private http: HttpClient,
     private authService: AuthenticationService,
     private roomService: RoomService
   ) { }
@@ -39,21 +35,14 @@ export class TeacherLoginComponent implements OnInit {
       return;
     }
 
-    let body = {
+    let roomInfo = {
       roomName: this.roomId,
       password: this.password,
       userName: this.name
     };
 
-    this.http.post(`${environment.api}/rooms/connect/teacher`, body).subscribe(
-      (data: any) => {
-        if(data.success) {
-          this.authService.authenticateTeacher(data.token);
-        } else {
-          this.serverMsg = data['message'];
-        }
-      },
-      err => { }
-    );
+    this.authService.authenticateTeacher(roomInfo).subscribe((serverMsg) => {
+      this.serverMsg = serverMsg;
+    });
   }
 }
