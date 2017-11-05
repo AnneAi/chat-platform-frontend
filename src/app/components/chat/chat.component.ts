@@ -19,7 +19,6 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
   private wasTyping: boolean = false;
 
   @Input() private isEmitterTyping: boolean;
-  @Input() private recipient;
   @Input() private messages;
   @Input() private userInput = '';
   @Output() userInputChange: EventEmitter<string> = new EventEmitter();
@@ -82,7 +81,6 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     }
 
     let msg = {
-      recipient: this.recipient,
       type: 'text',
       payload: this.userInput
     };
