@@ -38,11 +38,11 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       this.id = data.id;
     });
 
-    this.connection = this.websocket.addListener('message').subscribe((data: any) => {
+    this.websocket.addListener('message').subscribe((data: any) => {
       this.addMessage(data);
     });
 
-    this.connection = this.websocket.addListener('typing-on').subscribe((data: any) => {
+    this.websocket.addListener('typing-on').subscribe((data: any) => {
       let emitter = data.emitter;
       let student = this.students.find(s => s.id === emitter);
       if (student) {
@@ -51,7 +51,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.connection = this.websocket.addListener('typing-off').subscribe((data: any) => {
+    this.websocket.addListener('typing-off').subscribe((data: any) => {
       let emitter = data.emitter;
       let student = this.students.find(s => s.id === emitter);
       if (student) {
@@ -60,7 +60,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.connection = this.websocket.addListener('new-student').subscribe((data: any) => {
+    this.websocket.addListener('new-student').subscribe((data: any) => {
       let newStudent: StudentInterface = {
         id: data.student.id,
         isTyping: false,

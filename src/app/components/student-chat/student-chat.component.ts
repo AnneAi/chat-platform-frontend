@@ -34,15 +34,15 @@ export class StudentChatComponent implements OnInit, OnDestroy {
       this.id = data.id;
     });
 
-    this.connection = this.websocket.addListener('message').subscribe((data: any) => {
+    this.websocket.addListener('message').subscribe((data: any) => {
       this.messages.push(data);
     });
 
-    this.connection = this.websocket.addListener('typing-on').subscribe((data: any) => {
+    this.websocket.addListener('typing-on').subscribe((data: any) => {
       this.isEmitterTyping = true;
     });
 
-    this.connection = this.websocket.addListener('typing-off').subscribe((data: any) => {
+    this.websocket.addListener('typing-off').subscribe((data: any) => {
       this.isEmitterTyping = false;
     });
 
