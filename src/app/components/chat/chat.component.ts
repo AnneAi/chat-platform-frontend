@@ -18,7 +18,8 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
   private toScroll: boolean;
   private wasTyping: boolean = false;
 
-  @Input() private isEmitterTyping: boolean;
+  @Input() private isEmitterTyping: boolean = false;
+  private wasEmitterTyping: boolean = false;
   @Input() private messages;
   @Input() private userInput = '';
   @Output() userInputChange: EventEmitter<string> = new EventEmitter();
@@ -44,6 +45,13 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     if (this.totalMsgs !== newTotalMsgs) {
       this.toScroll = true;
       this.totalMsgs = newTotalMsgs;
+    }
+
+    if (!this.wasEmitterTyping && this.isEmitterTyping) {
+      this.toScroll = true;
+      this.wasEmitterTyping = true;
+    } else if (this.wasEmitterTyping && !this.isEmitterTyping) {
+      this.wasEmitterTyping = false;
     }
   }
 
