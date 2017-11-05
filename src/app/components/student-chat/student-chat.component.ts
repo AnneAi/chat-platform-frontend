@@ -12,7 +12,6 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class StudentChatComponent implements OnInit, OnDestroy {
 
-  private connection;
   private id: string;
   private isEmitterTyping: boolean = false;
   private messages = [ ];
@@ -30,7 +29,7 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.connection = this.websocket.addListener('init').subscribe((data: any) => {
+    this.websocket.addListener('init').subscribe((data: any) => {
       this.id = data.id;
     });
 
@@ -54,7 +53,6 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.connection.unsubscribe();
     this.websocket.disconnect();
   }
 

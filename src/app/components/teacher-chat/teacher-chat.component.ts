@@ -13,7 +13,6 @@ import { StudentInterface } from './student.interface';
 })
 export class TeacherChatComponent implements OnInit, OnDestroy {
 
-  private connection;
   private emitterType: string = 'teacher';
   private id: string;
   private isEmitterTyping: boolean = false;
@@ -34,7 +33,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.connection = this.websocket.addListener('init').subscribe((data: any) => {
+    this.websocket.addListener('init').subscribe((data: any) => {
       this.id = data.id;
     });
 
@@ -76,7 +75,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.connection = this.websocket.addListener('del-student').subscribe((data: any) => {
+    this.websocket.addListener('del-student').subscribe((data: any) => {
       this.students = this.students.filter(student => student.id != data.student);
       if (this.selectedStudent.id === data.student) {
         this.selectedStudent = { id: '', isTyping: false, name: '', userInput: '', unseen: 0 };
@@ -92,7 +91,6 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.connection.unsubscribe();
     this.websocket.disconnect();
   }
 
