@@ -3,7 +3,7 @@ import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { WebsocketService } from '../../services/websocket.service';
 import { TokenManagerService } from '../../services/token-manager.service';
 import { AuthenticationService } from '../../services/authentication.service';
-import { StudentInterface } from './student.interface';
+import { StudentInterface, initStudentInterface } from './student.interface';
 
 @Component({
   selector: 'teacher-chat',
@@ -17,7 +17,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   private id: string;
   private isEmitterTyping: boolean = false;
   private messages = { };
-  private selectedStudent: StudentInterface = { id: '', isTyping: false, name: '', userInput: '', unseen: 0 };
+  private selectedStudent: StudentInterface = initStudentInterface();
   private students: StudentInterface[ ] = [ ];
 
   private cssHeight: number;
@@ -62,13 +62,16 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
     });
 
     this.websocket.addListener('new-student').subscribe((data: any) => {
+
       let newStudent: StudentInterface = {
         id: data.student.id,
         isTyping: false,
         name: data.student.name,
+        discussWithAgent: data.student.discussWithAgent,
         userInput: '',
         unseen: 0
       };
+
       this.students.push(newStudent);
 
       this.messages[newStudent.id] = [ ];
@@ -80,7 +83,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
     this.websocket.addListener('del-student').subscribe((data: any) => {
       this.students = this.students.filter(student => student.id != data.student);
       if (this.selectedStudent.id === data.student) {
-        this.selectedStudent = { id: '', isTyping: false, name: '', userInput: '', unseen: 0 };
+        this.selectedStudent = initStudentInterface();
       }
       delete this.messages[data.student];
     });
