@@ -18,7 +18,8 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.websocket.addListener('connect-student').subscribe((data: any) => {
+
+    this.websocket.addListener('student-selected').subscribe((data: any) => {
       this.selectedStudentChange.emit(data.id);
     });
   }
@@ -27,11 +28,20 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     this.websocket.disconnect();
   }
 
-  selectStudent(id): void {
+  /*  Trigger the event to select a student.
+
+      PARAMS
+        id (string): id of the student to connect to
+
+      RETURN
+        none
+  */
+  onSelectStudent(id): void {
+
     let msg = {
       id: this.students[id].id
     };
 
-    this.websocket.send('connect-student', msg);
+    this.websocket.send('student-select', msg);
   }
 }
