@@ -62,34 +62,11 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.websocket.addListener('new-student').subscribe((data: any) => {
-
-      let newStudent: StudentInterface = {
-        id: data.student.id,
-        isTyping: false,
-        name: data.student.name,
-        discussWithAgent: data.student.discussWithAgent,
-        userInput: '',
-        unseen: 0
-      };
-
-      this.students.push(newStudent);
-
-      this.messages[newStudent.id] = [ ];
-      data.messages.forEach(msg => {
-        this.addMessage(msg);
-      });
-    });
+    this.websocket.addListener('student-connected').subscribe((data: any) => this.onStudentConnected(data));
 
     this.websocket.addListener('student-updated').subscribe((data: any) => this.onStudentUpdated(data));
 
-    this.websocket.addListener('del-student').subscribe((data: any) => {
-      this.students = this.students.filter(student => student.id != data.student);
-      if (this.selectedStudent.id === data.student) {
-        this.selectedStudent = initStudentInterface();
-      }
-      delete this.messages[data.student];
-    });
+    this.websocket.addListener('student-disconnected').subscribe((data: any) => this.onStudentDisconnected(data));
 
     let msg = {
       token: this.tokenManager.retrieveToken()
@@ -100,6 +77,38 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.websocket.disconnect();
+  }
+
+  /*  Create a student.
+
+      PARAMS
+        data (object): holds the new student information. Must contain
+          student (object): cf StudentInterface
+            id (string)
+            name (string)
+            discussWithAgent (boolean)
+          messages (array of objects)
+
+      RETURN
+        none
+  */
+  private onStudentConnected(data: any): void {
+
+    let newStudent: StudentInterface = {
+      id: data.student.id,
+      isTyping: false,
+      name: data.student.name,
+      discussWithAgent: data.student.discussWithAgent,
+      userInput: '',
+      unseen: 0
+    };
+
+    this.students.push(newStudent);
+
+    this.messages[newStudent.id] = [ ];
+    data.messages.forEach(msg => {
+      this.addMessage(msg);
+    });
   }
 
   /*  Update a student.
@@ -121,6 +130,22 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       student.name = data.name;
       student.discussWithAgent = data.discussWithAgent;
     }
+  }
+
+  /*  Delete a student.
+
+      PARAMS
+        data (object): holds the student information. Must contain (cf StudentInterface)
+          id (string)
+
+      RETURN
+        none
+  */
+  private onStudentDisconnected(data: any): void {
+
+    this.students = this.students.filter(s => s.id != data.student);
+    if (this.selectedStudent.id === data.student) this.selectedStudent = initStudentInterface();
+    delete this.messages[data.student];
   }
 
   /*  Resize the size of the main container on window resize.
