@@ -33,6 +33,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.websocket.addListener('init').subscribe((data: any) => {
       this.id = data.id;
     });
@@ -80,6 +81,8 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
       });
     });
 
+    this.websocket.addListener('student-updated').subscribe((data: any) => this.onStudentUpdated(data));
+
     this.websocket.addListener('del-student').subscribe((data: any) => {
       this.students = this.students.filter(student => student.id != data.student);
       if (this.selectedStudent.id === data.student) {
@@ -97,6 +100,27 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.websocket.disconnect();
+  }
+
+  /*  Update a student.
+
+      PARAMS
+        data (object): holds the new student information. Must contain (cf StudentInterface)
+          id (string)
+          name (string)
+          discussWithAgent (boolean)
+
+      RETURN
+        none
+  */
+  private onStudentUpdated(data: any): void {
+
+    let student = this.students.find(s => s.id === data.id);
+    if (student) {
+      student.id = data.id;
+      student.name = data.name;
+      student.discussWithAgent = data.discussWithAgent;
+    }
   }
 
   /*  Resize the size of the main container on window resize.
