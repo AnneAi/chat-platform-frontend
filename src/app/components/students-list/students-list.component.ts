@@ -25,6 +25,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+
     this.websocket.disconnect();
   }
 
@@ -43,5 +44,22 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     };
 
     this.websocket.send('student-select', msg);
+  }
+
+  /*  Trigger the event to switch the student's interlocutor.
+
+      PARAMS
+        id (string): id of the student
+
+      RETURN
+        none
+  */
+  onToggleStudentInterlocutor(id): void {
+
+    let msg = {
+      id: this.students[id].id
+    };
+
+    this.websocket.send('student-switch', msg);
   }
 }
