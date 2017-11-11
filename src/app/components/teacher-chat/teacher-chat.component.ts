@@ -34,33 +34,13 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.websocket.addListener('init').subscribe((data: any) => {
-      this.id = data.id;
-    });
+    this.websocket.addListener('init').subscribe((data: any) => this.onInit(data));
 
-    this.websocket.addListener('message').subscribe((data: any) => {
-      data.forEach(msg => {
-        this.addMessage(msg);
-      });
-    });
+    this.websocket.addListener('message').subscribe((data: any) => this.onMessage(data));
 
-    this.websocket.addListener('typing-on').subscribe((data: any) => {
-      let emitter = data.emitter;
-      let student = this.students.find(s => s.id === emitter);
-      if (student) {
-        student.isTyping = true;
-        this.handleTypingIndicator(student);
-      }
-    });
+    this.websocket.addListener('typing-on').subscribe((data: any) => this.onTyping(data, true));
 
-    this.websocket.addListener('typing-off').subscribe((data: any) => {
-      let emitter = data.emitter;
-      let student = this.students.find(s => s.id === emitter);
-      if (student) {
-        student.isTyping = false;
-        this.handleTypingIndicator(student);
-      }
-    });
+    this.websocket.addListener('typing-off').subscribe((data: any) => this.onTyping(data, false));
 
     this.websocket.addListener('student-connected').subscribe((data: any) => this.onStudentConnected(data));
 
@@ -77,6 +57,55 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.websocket.disconnect();
+  }
+
+  /*  Handle init event.
+
+      PARAMS
+        data (object): must contain
+          id (string): id of the current user
+
+      RETURN
+        none
+  */
+  private onInit(data: any): void {
+
+    this.id = data.id;
+  }
+
+  /*  Handle message event.
+
+      PARAMS
+        messages (array of objects)
+
+      RETURN
+        none
+  */
+  private onMessage(messages: any[ ]): void {
+
+    messages.forEach(msg => {
+      this.addMessage(msg);
+    });
+  }
+
+  /*  Handle typing event.
+
+      PARAMS
+        data (object): must contain
+          emitter (string): id of the emitter
+        state (boolean): state of the typing indicator
+
+      RETURN
+        none
+  */
+  private onTyping(data: any, state: boolean): void {
+
+    let emitter = data.emitter;
+    let student = this.students.find(s => s.id === emitter);
+    if (student) {
+      student.isTyping = state;
+      this.handleTypingIndicator(student);
+    }
   }
 
   /*  Create a student.
