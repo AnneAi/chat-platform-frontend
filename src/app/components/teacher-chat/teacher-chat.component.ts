@@ -59,6 +59,16 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
     this.websocket.disconnect();
   }
 
+
+
+  /******************************************
+  /*
+  /*      WEBSOCKET EVENTS
+  /*
+  /*****************************************/
+
+
+
   /*  Handle init event.
 
       PARAMS
@@ -177,6 +187,16 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
     delete this.messages[data.student];
   }
 
+
+
+  /******************************************
+  /*
+  /*      TEMPLATE EVENTS
+  /*
+  /*****************************************/
+
+
+
   /*  Resize the size of the main container on window resize.
 
       PARAMS
@@ -187,6 +207,7 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
   */
   @HostListener('window:resize', [ '$event' ])
   private onWindowResize(event): void {
+
     // debounce resize, wait for resize to finish before doing stuff
     if (this.resizeTimeout) {
       clearTimeout(this.resizeTimeout);
@@ -196,7 +217,58 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
     }).bind(this), this.debounceTime);
   }
 
-  addMessage(message): void {
+  /*  Select a student.
+
+      PARAMS
+        id (string): id of the student
+
+      RETURN
+        none
+  */
+  onSelectedStudent(id: string): void {
+
+    this.selectedStudent = this.students.find(s => s.id === id);
+    if (this.selectedStudent) {
+      this.selectedStudent.unseen = 0;
+      this.handleTypingIndicator(this.selectedStudent);
+    }
+  }
+
+  /*  Update user input for a student.
+
+      PARAMS
+        userInput (string): input to save
+
+      RETURN
+        none
+  */
+  onUserInputChange(userInput: string): void {
+
+    if (this.selectedStudent) {
+      this.selectedStudent.userInput = userInput;
+    }
+  }
+
+
+
+  /******************************************
+  /*
+  /*      CORE
+  /*
+  /*****************************************/
+
+
+
+  /*  Add a message in a student messages stack.
+
+      PARAMS
+        message (object)
+
+      RETURN
+        none
+  */
+  private addMessage(message): void {
+
     let emitterId = message.emitterType === 'student' ? message.emitter : message.recipient;
     this.messages[emitterId].push(message);
 
@@ -217,24 +289,20 @@ export class TeacherChatComponent implements OnInit, OnDestroy {
         none
   */
   private disconnect(): void {
+
     this.auth.disconnectTeacher();
   }
 
-  handleTypingIndicator(student: StudentInterface): void {
+  /*  handle the display of the typing indicator.
+
+      PARAMS
+        student (StudentInterface)
+
+      RETURN
+        none
+  */
+  private handleTypingIndicator(student: StudentInterface): void {
+
     student.isTyping && student.id === this.selectedStudent.id ? this.isEmitterTyping = true : this.isEmitterTyping = false;
-  }
-
-  onSelectedStudent(studentId: string): void {
-    this.selectedStudent = this.students.find(s => s.id === studentId);
-    if (this.selectedStudent) {
-      this.selectedStudent.unseen = 0;
-      this.handleTypingIndicator(this.selectedStudent);
-    }
-  }
-
-  onUserInputChange(userInput: string): void {
-    if (this.selectedStudent) {
-      this.selectedStudent.userInput = userInput;
-    }
   }
 }
