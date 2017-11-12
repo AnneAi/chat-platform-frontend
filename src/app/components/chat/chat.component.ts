@@ -20,9 +20,12 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
 
   @Input() private isEmitterTyping: boolean = false;
   private wasEmitterTyping: boolean = false;
+  
   @Input() private messages;
   @Input() private userInput = '';
+
   @Output() userInputChange: EventEmitter<string> = new EventEmitter();
+
   @ViewChild('convTainer') private convTainer: ElementRef;
 
   constructor(
@@ -59,7 +62,16 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     this.speechRecognitionService.DestroySpeechObject();
   }
 
-  toggleSpeechRecognition(): void {
+  /*  Toggle speech recognition.
+
+      PARAMS
+        none
+
+      RETURN
+        none
+  */
+  private toggleSpeechRecognition(): void {
+
     this.recording = !this.recording;
 
     if (this.recording) {
@@ -83,7 +95,16 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     }
   }
 
-  private sendMessage(): void {
+  /*  Send a message to the server.
+
+      PARAMS
+        none
+
+      RETURN
+        none
+  */
+  private onSendMessage(): void {
+
     if (Utils.isEmpty(this.userInput)) {
       return;
     }
@@ -97,7 +118,47 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     this.userInput = '';
   }
 
+  /*  Handle key down event.
+
+      PARAMS
+        event (event object)
+
+      RETURN
+        none
+  */
+  private onKeyDown(event): void {
+
+    if (event.keyCode === 13) {
+      this.onSendMessage();
+    }
+
+    this.handleTypingState();
+  }
+
+  /*  Handle input event.
+
+      PARAMS
+        event (event object)
+
+      RETURN
+        none
+  */
+  private onInput(event): void {
+    this.userInput = event.target.value;
+    this.userInputChange.emit(this.userInput);
+    this.handleTypingState();
+  }
+
+  /*  Handle the sending of typing indicator events.
+
+      PARAMS
+        event (event object)
+
+      RETURN
+        none
+  */
   private handleTypingState() {
+
     if (!Utils.isEmpty(this.userInput) && !this.wasTyping) {
       this.websocket.send('typing-on');
       this.wasTyping = true;
@@ -105,19 +166,5 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
       this.websocket.send('typing-off');
       this.wasTyping = false;
     }
-  }
-
-  private handleKeyDown(event): void {
-    if (event.keyCode === 13) {
-      this.sendMessage();
-    }
-
-    this.handleTypingState();
-  }
-
-  private handleInput(event): void {
-    this.userInput = event.target.value;
-    this.userInputChange.emit(this.userInput);
-    this.handleTypingState();
   }
 }
