@@ -20,9 +20,11 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
 
   @Input() private isEmitterTyping: boolean = false;
   private wasEmitterTyping: boolean = false;
-  
+
   @Input() private messages;
   @Input() private userInput = '';
+  // Indicate how the message has been entered: either 'typed' or 'speech'
+  private media: string = 'typed';
 
   @Output() userInputChange: EventEmitter<string> = new EventEmitter();
 
@@ -75,6 +77,8 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     this.recording = !this.recording;
 
     if (this.recording) {
+      this.media = 'speech';
+
       this.recordSession = this.speechRecognitionService.record()
       .subscribe(
         //listener
@@ -91,6 +95,8 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
         }
       );
     } else {
+      this.media = 'typed';
+
       this.recordSession.unsubscribe();
     }
   }
@@ -111,11 +117,15 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
 
     let msg = {
       type: 'text',
-      payload: this.userInput
+      payload: {
+        text: this.userInput,
+        media: this.media
+      }
     };
 
     this.websocket.send('message', msg);
     this.userInput = '';
+    this.media = 'typed';
   }
 
   /*  Handle key down event.
@@ -144,6 +154,7 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
         none
   */
   private onInput(event): void {
+
     this.userInput = event.target.value;
     this.userInputChange.emit(this.userInput);
     this.handleTypingState();
