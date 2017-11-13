@@ -67,6 +67,16 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     this.speechRecognitionService.DestroySpeechObject();
   }
 
+
+
+  /******************************************
+  /*
+  /*      TEMPLATE EVENTS
+  /*
+  /*****************************************/
+
+
+
   /*  Toggle speech recognition.
 
       PARAMS
@@ -75,7 +85,7 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
       RETURN
         none
   */
-  private toggleSpeechRecognition(): void {
+  private onToggleSpeechRecognition(): void {
 
     this.recording = !this.recording;
 
@@ -162,6 +172,16 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
     this.userInputChange.emit(this.userInput);
     this.handleTypingState();
   }
+
+
+
+  /******************************************
+  /*
+  /*      CORE
+  /*
+  /*****************************************/
+
+
 
   /*  Handle the sending of typing indicator events.
 
