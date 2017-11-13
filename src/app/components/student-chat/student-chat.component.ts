@@ -33,36 +33,13 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.websocket.addListener('init').subscribe((data: any) => {
+    this.websocket.addListener('init').subscribe((data: any) => this.onInit(data));
 
-      this.id = data.id;
+    this.websocket.addListener('message').subscribe((data: any) => this.onMessage(data));
 
-      // send an event to the agent to make it engage the conversation
-      let msg = {
-        type: 'event',
-        payload: {
-          event: 'engage_conversation'
-        }
-      };
+    this.websocket.addListener('typing-on').subscribe((data: any) => this.onTyping(true));
 
-      this.websocket.send('message', msg);
-    });
-
-    this.websocket.addListener('message').subscribe((messages: any) => {
-      if (messages[0].emitterType === 'agent') {
-        this.simulateTyping(messages.reverse());
-      } else {
-        this.messages = this.messages.concat(messages);
-      }
-    });
-
-    this.websocket.addListener('typing-on').subscribe((data: any) => {
-      this.isEmitterTyping = true;
-    });
-
-    this.websocket.addListener('typing-off').subscribe((data: any) => {
-      this.isEmitterTyping = false;
-    });
+    this.websocket.addListener('typing-off').subscribe((data: any) => this.onTyping(false));
 
     let msg = {
       token: this.tokenManager.retrieveToken()
@@ -74,6 +51,80 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.websocket.disconnect();
   }
+
+
+
+  /******************************************
+  /*
+  /*      WEBSOCKET EVENTS
+  /*
+  /*****************************************/
+
+
+
+  /*  Handle init event.
+
+      PARAMS
+        data (object): must contain
+          id (string): id of the current user
+
+      RETURN
+        none
+  */
+  private onInit(data: any): void {
+
+    this.id = data.id;
+
+    // send an event to the agent to make it engage the conversation
+    let msg = {
+      type: 'event',
+      payload: {
+        event: 'engage_conversation'
+      }
+    };
+
+    this.websocket.send('message', msg);
+  }
+
+  /*  Handle message event.
+
+      PARAMS
+        messages (array of objects)
+
+      RETURN
+        none
+  */
+  private onMessage(messages: any[ ]): void {
+
+    if (messages[0].emitterType === 'agent') {
+      this.simulateTyping(messages.reverse());
+    } else {
+      this.messages = this.messages.concat(messages);
+    }
+  }
+
+  /*  Handle typing event.
+
+      PARAMS
+        state (boolean): state of the typing indicator
+
+      RETURN
+        none
+  */
+  private onTyping(state: boolean): void {
+
+    this.isEmitterTyping = state;
+  }
+
+
+
+  /******************************************
+  /*
+  /*      TEMPLATE EVENTS
+  /*
+  /*****************************************/
+
+
 
   /*  Resize the size of the main container on window resize.
 
@@ -93,6 +144,16 @@ export class StudentChatComponent implements OnInit, OnDestroy {
       this.cssHeight = event.target.innerHeight;
     }).bind(this), this.debounceTime);
   }
+
+
+
+  /******************************************
+  /*
+  /*      CORE
+  /*
+  /*****************************************/
+
+
 
   /*  Disconnect the user from the room.
 
