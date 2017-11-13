@@ -21,6 +21,8 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
   @Input() private isEmitterTyping: boolean = false;
   private wasEmitterTyping: boolean = false;
 
+  @Input() private quickReplies: any[] = [ ];
+
   @Input() private messages;
   @Input() private userInput = '';
   // Indicate how the message has been entered: either 'typed' or 'speech'
