@@ -211,8 +211,8 @@ export class StudentChatComponent implements OnInit, OnDestroy {
 
         let msg = messages.pop();
 
-        if (msg.message.type === 'text') this.messages.push(msg);
-        else if (msg.message.type === 'quick-replies') this.quickReplies = msg.message.replies;
+        if (msg.message.type === 'quick-replies') this.quickReplies = msg.message.replies;
+        else this.messages.push(msg);
 
         setTimeout(() => {
 
