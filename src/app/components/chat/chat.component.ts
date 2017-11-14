@@ -21,7 +21,8 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
   @Input() private isEmitterTyping: boolean = false;
   private wasEmitterTyping: boolean = false;
 
-  @Input() private quickReplies: any[] = [ ];
+  // Contain a list of quick replies
+  @Input() private quickReplies: string[] = [ ];
 
   @Input() private messages;
   @Input() private userInput = '';
@@ -114,6 +115,28 @@ export class ChatComponent implements AfterViewChecked, DoCheck, OnDestroy {
 
       this.recordSession.unsubscribe();
     }
+  }
+
+  /*  Handle click on a quick reply.
+
+      PARAMS
+        qr (object): quick reply object (see above)
+
+      RETURN
+        none
+  */
+  private onQuickReplyClicked(qr: any): void {
+
+    let msg = {
+      type: 'text',
+      payload: {
+        text: qr,
+        media: 'quick-reply'
+      }
+    };
+
+    this.websocket.send('message', msg);
+    this.quickReplies = [ ];
   }
 
   /*  Send the user input to the server.

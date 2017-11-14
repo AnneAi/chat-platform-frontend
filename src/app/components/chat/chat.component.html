@@ -8,7 +8,12 @@
   <typing-indicator *ngIf="isEmitterTyping"> </typing-indicator>
 
   <div id="quick-replies" *ngIf="quickReplies?.length !== 0">
-    <button class="quick-replies" *ngFor="let qr of quickReplies">{{qr.text}}</button>
+    <button
+      *ngFor="let qr of quickReplies"
+      (click)="onQuickReplyClicked(qr)"
+      class="quick-replies">
+      {{qr}}
+    </button>
   </div>
 </div>
 
