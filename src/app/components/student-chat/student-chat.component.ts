@@ -15,14 +15,17 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   private id: string;
   private isEmitterTyping: boolean = false;
   private messages = [ ];
-  private wordsPerMilliseconds: number = 260 / (60 * 1000);
-  private MaxDelay: number = 5 * 1000;
-  private defaultDelay: number = 1.5 * 1000;
-  private delayBetweenMessages: number = 1.5 * 1000;
+  private wordsPerMilliseconds: number = 270 / (60 * 1000);
+  private MaxDelay: number = 4.2 * 1000;
+  private defaultDelay: number = 1.2 * 1000;
+  private delayBetweenMessages: number = 1.2 * 1000;
 
   private cssHeight: number;
   private debounceTime: number = 50;
   private resizeTimeout: number;
+
+  // Contain a list of quick replies
+  private quickReplies: string[] = [ ];
 
   constructor(
     private websocket: WebsocketService,
@@ -177,14 +180,22 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   */
   private simulateTyping(messages): void {
     if (messages.length > 0) {
-      this.isEmitterTyping = true;
 
       let delay;
       let message = messages[messages.length - 1].message;
+
+      // TEXT message
       if (message.type === 'text') {
         let nbWords = message.text.split(' ').length;
         delay = nbWords / this.wordsPerMilliseconds;
       }
+
+      // QUICK REPLIES message
+      else if (message.type === 'quick-replies') {
+        delay = 0;
+      }
+
+      // other message
       else {
         delay = this.defaultDelay;
       }
@@ -193,10 +204,18 @@ export class StudentChatComponent implements OnInit, OnDestroy {
         delay = this.MaxDelay;
       }
 
+      this.isEmitterTyping = true;
       setTimeout(() => {
+
         this.isEmitterTyping = false;
-        this.messages.push(messages.pop());
+
+        let msg = messages.pop();
+
+        if (msg.message.type === 'text') this.messages.push(msg);
+        else if (msg.message.type === 'quick-replies') this.quickReplies = msg.message.replies;
+
         setTimeout(() => {
+
           this.simulateTyping(messages);
         }, this.delayBetweenMessages);
       }, delay);
