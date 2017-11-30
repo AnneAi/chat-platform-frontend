@@ -15,9 +15,9 @@ export class StudentChatComponent implements OnInit, OnDestroy {
   private id: string;
   private isEmitterTyping: boolean = false;
   private messages = [ ];
-  private wordsPerMilliseconds: number = 270 / (60 * 1000);
-  private MaxDelay: number = 4.2 * 1000;
-  private defaultDelay: number = 1.2 * 1000;
+  private wordsPerMilliseconds: number = 300 / (60 * 1000);
+  private MaxDelay: number = 2.4 * 1000;
+  private defaultDelay: number = 1.1 * 1000;
   private delayBetweenMessages: number = 1.2 * 1000;
 
   private cssHeight: number;
