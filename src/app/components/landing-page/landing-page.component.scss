@@ -1,428 +1,154 @@
-@import "../../../styles/colors.scss";
-@import "../../../styles/metrics.scss";
-@import "../../../styles/mixins.scss";
+@import '../../../styles/colors.scss';
+@import '../../../styles/metrics.scss';
+@import '../../../styles/mixins.scss';
 
-/*******************************/
-/*  Default HTML tags
-/*******************************/
-
-section {
-  position: relative;
-  padding: 1em 0;
+:host {
+  overflow-y: auto;
 }
 
-h1 {
-  text-shadow: 3px 3px 5px $grey;
-}
-
-a,
-a:visited {
-  color: $white;
-}
-
-a[class*="button"],
-button {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 1.5em 6em;
-
-  background-color: rgba(0,0,0,0);
-  @include border-radius-1(5px);
-  border-width: 2px;
-  border-style: solid;
-  cursor: pointer;
-
-  font-weight: bold;
-  text-decoration: none;
-
-  &[class*="prim"] {
-    border-color: $white;
-    color: $white;
-  }
-
-  &:hover {
-    background-color: $white;
-    color: $color-1;
-  }
-}
-
-img {
-  max-height: 150px;
-  max-width: 150px;
-
-  &[class*='square'] {
-    height: 150;
-    width: 150;
-  }
-}
-
-/*******************************/
-/*  Abstract classes
-/*******************************/
-
-.background-abst {
-  position: absolute;
+#bg-pic {
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: -100;
+  z-index: -5;
 
+  background-image: url('../../../assets/background-2.jpg');
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
 }
 
-.col-abst {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 0 5px;
-  float: left;
-}
-
-.bg-ptrn-abst {
-  position: absolute;
-  z-index: -10;
+#bg-color-fltr {
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: -5;
 
-  background-image: url('../../../assets/pattern.jpg');
-  @include filter-blur(1px);
-  opacity: 0.1;
+  background-color: $black;
+  opacity: 0.2;
 }
 
-/*******************************/
-/*  Building classes
-/*******************************/
-
-.margin {
-  margin: 0.5em;
+#content {
+  box-sizing: border-box;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2em;
+  padding: 2em;
 }
 
-.center-text {
+#action {
   text-align: center;
 }
 
-.bold {
-  font-weight: bold;
+a {
+  display: block;
+  margin-top: 2em;
+
+  color: white;
+
+  text-align: center;
 }
 
-.intrinsic-container {
-	position: relative;
-	padding-bottom: 56.25%;
-	height: 0;
-}
-
-.intrinsic-element {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-/*******************************/
-/*  Building div
-/*******************************/
-
-div[class*='content'] {
-  box-sizing: border-box;
-  margin: 0 auto;
-  margin-bottom: 5px;
-  width: 60%;
-}
-
-div[class*='flex'] {
-  @include display-flex();
-}
-
-div[class*='content-center'] {
-  @include justify-content-center();
-  @include align-items-center();
-}
-
-div[class*='row-reverse'] {
-  @include display-flex-row-reverse();
-}
-
-div[class*='row-centered'] {
-  @include align-items-center();
-}
-
-div[class*='column-centered'] {
-  @include flex-flow-column();
-  @include align-items-center();
-}
-
-div[class*='col-25'] {
-  @extend .col-abst;
-  width: 25%;
-}
-
-div[class*='col-33'] {
-  @extend .col-abst;
-  width: 33%;
-}
-
-div[class*='col-50'] {
-  @extend .col-abst;
-  width: 50%;
-}
-
-div[class*='col-66'] {
-  @extend .col-abst;
-  width: 66%;
-}
-
-div[class*='col-75'] {
-  @extend .col-abst;
-  width: 75%;
-}
-
-div[class*='col-100'] {
-  @extend .col-abst;
-  width: 100%;
-}
-
-div[class*='clear'] {
-  clear: both;
-}
-
-/*******************************/
-/*  Sections
-/*******************************/
-
-#banner {
-  box-sizing: border-box;
-  padding: 30vh 0;
-
-  .background {
-    @extend .background-abst;
-    background-image: url('../../../assets/background-2.jpg');
-    @include filter-contrast(50%);
-  }
-}
-
-#video-presentation {
-  position: relative;
-
-  .bg-ptrn {
-    @extend .bg-ptrn-abst;
-  }
-
-  .bg-clr {
-    position: absolute;
-    z-index: -10;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    @include linear-gradient(-50deg, $color-1-l, $color-1);
-  }
-}
-
-#features {
-  .background {
-    @extend .background-abst;
-    background-image: url('../../../assets/bg-features.png');
-  }
-
-  a {
-    &[class*="prim"] {
-      background-color: $red;
-      border-color: $white;
-      color: $white;
-    }
-
-    &:hover {
-      background-color: $white;
-      border-color: $white;
-      color: $red;
-    }
-  }
-}
-
-#accessibility {
-  .background {
-    @extend .background-abst;
-    background-image: url('../../../assets/background-3.jpg');
-    @include filter-brightness(40%);
-  }
-}
-
-#statistics {
-  .background {
-    @extend .background-abst;
-    background-image: url('../../../assets/background-4.jpg');
-    @include filter-brightness(25%);
-  }
-}
-
-#volunteer {
-  position: relative;
-
-  .bg-ptrn {
-    @extend .bg-ptrn-abst;
-  }
-
-  .bg-clr {
-    position: absolute;
-    z-index: -10;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    @include linear-gradient(-50deg, $color-3-l, $color-3);
-  }
-}
-
-#footer {
-  position: relative;
-
-  .bg-ptrn {
-    @extend .bg-ptrn-abst;
-  }
-
-  .bg-clr {
-    position: absolute;
-    z-index: -10;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    background-color: $black;
-  }
-}
-
-@media screen and (max-width: $tablet-width) {
-  section,
-  div[class*='content'],
-  #banner,
-  .col-abst {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  div[class*='content'] {
-    width: 100%;
-  }
-
-  div[class*='row'],
-  div[class*='column-centered'],
-  .col-abst {
-    @include flex-flow-column();
-    @include align-items-center();
-  }
-
-  div[class*='col-25'],
-  div[class*='col-33'],
-  div[class*='col-50'],
-  div[class*='col-66'],
-  div[class*='col-75'],
-  div[class*='col-100'] {
-    display: block;
-    width: 100%;
-
-    text-align: center;
-  }
-}
-
-/************************** FORM ****************************/
-
-form button {
-  box-sizing: border-box;
-  margin-top: 1em;
-  padding: 1.5em 6em;
-  width: 100%;
+button {
+  display: inline-block;
+  margin: 0.5em;
+  padding: 1.5em 3em;
 
   background-color: rgba(0,0,0,0);
-  color: $color-3;
+  color: #FFFFFF;
   @include border-radius-1(5px);
-  border-color: $color-3;
+  border-color: #FFFFFF;
   border-width: 2px;
   border-style: solid;
   cursor: pointer;
 
   font-weight: bold;
+  font-size: 1em;
 
   &:hover {
+    background-color: #FFFFFF;
+    color: $color-1;
+  }
+
+  &[class*="teacher"] {
+    background-color: $white;
+    border-color: $white;
+    color: $color-3;
+  }
+
+  &[class*="teacher"]:hover {
     background-color: $color-3;
     color: $white;
   }
 
-  &[disabled],
-  &[disabled]:hover {
-    background-color: rgba(0,0,0,0);
-    color: $grey-d;
-    border-color: $grey-d;
+  &[class*="student"] {
+    background-color: $white;
+    border-color: $white;
+    color: $color-1;
+  }
 
-    opacity: 0.5;
+  &[class*="student"]:hover {
+    background-color: $color-1;
+    color: $white;
   }
 }
 
-form {
-  margin: 0 auto;
-  margin-top: 2em;
-  padding: 1em 0;
-  width: 100%;
+h1 {
+  text-align: center;
+  color: white;
+  margin: 4em 0;
+  text-shadow: 0 0 5px $grey;
+  font-style: italic;
+}
 
-  @include border-radius-1(10px);
+h3 {
+  text-align: center;
+  color: white;
+}
+
+form {
 
   > div {
     margin: 0 auto;
     margin-bottom: 1em;
-    width: 80%;
 
     label {
       display: block;
-      margin-bottom: 0.25em;
       width: 100%;
-
-      color: $grey-d;
+      margin-bottom: 0.25em;
+      color: white;
     }
 
     input,
-    textarea {
-      display: block;
+    select {
       box-sizing: border-box;
-      padding: 1em 0;
-      padding-left: 1em;
+      display: block;
       width: 100%;
+      padding: 1em;
 
+      background-color: $white;
       @include border-radius-1(5px);
       border: 1px solid $grey;
-      border-left: 5px solid $grey;
     }
 
-    textarea {
-      min-height: 3em;
-
-      resize: vertical;
+    option {
+      padding: 1em;
     }
   }
 }
 
-.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid $green !important;
-}
+@media screen and (max-width: $tablet-width) {
 
-.ng-invalid:not(form)  {
-  border-left: 5px solid $red !important;
-}
+  #content {
+    width: 100%;
+    margin-top: 0;
+  }
 
-.errors {
-  box-sizing: border-box;
-  padding: 1em 0;
-  width: 100%;
-
-  background-color: $red;
-  color: $white;
-  @include border-radius-1(5px);
-
-  text-indent: 1em;
+  button {
+    width: 100%;
+  }
 }
