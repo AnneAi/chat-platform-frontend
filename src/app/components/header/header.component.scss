@@ -25,11 +25,10 @@
   @include justify-content-center();
 }
 
-nav {
-  width: 33%;
-  @include display-flex();
-  @include align-items-center();
-  justify-content: flex-end;
+a[id="title"] {
+  text-decoration: none;
+  font-size: 5em;
+  font-weight: bold;
 }
 
 .button-abst {
@@ -83,15 +82,5 @@ button[class*="student"] {
 
   #logo {
     display: none;
-  }
-
-  nav {
-    display: block;
-    width: 100%;
-
-    button {
-      margin: 5px 0;
-      width: 100%;
-    }
   }
 }
